@@ -1,0 +1,5 @@
+
+canny_mod.py             contains base edge/ridge detection algorithms
+drylines.py              contains useful routines and functions to apply algorithms
+get_input.py             downloads era5_nearsurface_2016.nc 
+identify_cab_tkd.py      finds CAB and TKD in 1 month of ERA-5 reanalysis
