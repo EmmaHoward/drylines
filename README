@@ -2,13 +2,17 @@
 canny_mod.py             contains base edge/ridge detection algorithms
 drylines.py              contains useful routines and functions to apply algorithms
 get_input.py             downloads era5_nearsurface_2016.nc 
-identify_cab_tkd.py      finds CAB and TKD in 1 month of ERA-5 reanalysis
+identify_cab_kd.py       finds CAB and KD in 1 month of ERA-5 reanalysis
 
 To get started with a test case, set up the copernicus web api (https://cds.climate.copernicus.eu/api-how-to) if you haven't already.
 You'll need to register to do this. 
 Install dependencies, including iris, basemap, cmocean and skimage. skimage is a must
 (of these, only skimage is truly required. You can fairly easily remove the former three packages by editing the code)
 Then you can run get_input.py to download some sample data. 
-Running identify_cab_tkd.py will then identify drylines and convergence lines in the sample data. 
+Running identify_cab_kd.py will then identify drylines and convergence lines in the sample data. 
 It does so by importing code from drylines.py, which in turn imports from canny_mod.py, so make sure these are in the same directory. 
 You won't need to run canny_mod.py or drylines.py directly.
+
+
+Note: the Kalahari Discontinuity (KD) was previously referred to as the Trans-Kalahari Discontinuity (TKD) before it was pointed out to 
+me that not every acronym needs three letters. Some instances of tkd may still exist in the code and/or doc. 
