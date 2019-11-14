@@ -11,7 +11,7 @@ identify_cab_kd.py       finds CAB and KD in 1 month of ERA-5 reanalysis
 
 To get started with the example case, set up the copernicus web api (https://cds.climate.copernicus.eu/api-how-to) if you haven't already.
 You'll need to register to do this. 
-Install dependencies, including iris, basemap, cmocean and skimage. skimage is a must
+Install dependencies, including iris, basemap, cmocean and skimage. 
 (of these, only skimage is truly required. You can fairly easily remove the former three packages by editing the code)
 Then you can run get_input.py to download some sample data. 
 Running identify_cab_kd.py will then identify drylines and convergence lines in the sample data. 
