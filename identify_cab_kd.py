@@ -20,7 +20,7 @@ lat = u.coord('latitude').points
 lon = u.coord('longitude').points
 lon2,lat2=np.meshgrid(lon,lat)
 
-# Create masks for acceptable CAB and TKD locations
+# Create masks for acceptable CAB and KD locations
 
 landmask = maskoceans(lon2,lat2,np.ones(lon2.shape))
 mask_cab = (lon2<=30)*(lat2<=-5)*(lat2>=-18)*(1-landmask.mask)
@@ -66,17 +66,17 @@ def u_fig(d,tt,points,filt):
 # set plotfreq to 1 in order to see a rough plot of q and detected locations for each day
 cab_q=find_edge(q,lon,lat,2,theta_min=-np.pi/4,theta_max=np.pi/6,mag_min=0.003,minlen=10,spatial_mask=mask_cab,relative="Grid Cell",output='sparse',plotfreq=0,times=None,makefig=q_fig)
 
-#Find dryline TKDs. See drylines.py for a description of the inputs
+#Find dryline KDs. See drylines.py for a description of the inputs
 # set plotfreq to 1 in order to see a rough plot of q and detected locations for each day
-tkd_q=find_edge(q,lon,lat,2,theta_max=np.pi/2,theta_min=np.pi/6,mag_min=0.003,minlen=10,spatial_mask=mask_tkd,relative="Grid Cell",output='sparse',plotfreq=0,times=None,makefig=q_fig)
+kd_q=find_edge(q,lon,lat,2,theta_max=np.pi/2,theta_min=np.pi/6,mag_min=0.003,minlen=10,spatial_mask=mask_tkd,relative="Grid Cell",output='sparse',plotfreq=0,times=None,makefig=q_fig)
 
 #Find convergence-line CABs. See drylines.py for a description of the inputs
 # set plotfreq to 1 in order to see a rough plot of div and detected locations for each day
 cab_u=find_ridge(div,lon,lat,1,theta_min=-np.pi/4,theta_max=np.pi/6,mag_min=2e-5,minlen=10,spatial_mask=mask_cab,output='sparse',plotfreq=0,times=None,makefig=u_fig,sign=-1)
 
-#Find convergence-line TKDs. See drylines.py for a description of the inputs
+#Find convergence-line KDs. See drylines.py for a description of the inputs
 # set plotfreq to 1 in order to see a rough plot of div and detected locations for each day
-tkd_u=find_ridge(div,lon,lat,1,theta_max=np.pi/2,theta_min=np.pi/6,mag_min=2e-5,minlen=10,spatial_mask=mask_tkd,output='sparse',plotfreq=0,times=None,makefig=u_fig,sign=-1)
+kd_u=find_ridge(div,lon,lat,1,theta_max=np.pi/2,theta_min=np.pi/6,mag_min=2e-5,minlen=10,spatial_mask=mask_tkd,output='sparse',plotfreq=0,times=None,makefig=u_fig,sign=-1)
 
 
 # Plot spatial frequency heatmaps
@@ -91,8 +91,8 @@ plt.subplot(222)
 m=Basemap(llcrnrlat=-40,llcrnrlon=10,urcrnrlat=0,urcrnrlon=41.5)
 m.drawcoastlines()
 m.drawcountries()
-plt.pcolor(lon,lat,tkd_q.sum(axis=0),vmin=0,vmax=10,cmap=cmocean.cm.rain)
-plt.title("Dryline TKD")
+plt.pcolor(lon,lat,kd_q.sum(axis=0),vmin=0,vmax=10,cmap=cmocean.cm.rain)
+plt.title("Dryline KD")
 
 plt.subplot(223)
 m=Basemap(llcrnrlat=-40,llcrnrlon=10,urcrnrlat=0,urcrnrlon=41.5)
@@ -105,8 +105,8 @@ plt.subplot(224)
 m=Basemap(llcrnrlat=-40,llcrnrlon=10,urcrnrlat=0,urcrnrlon=41.5)
 m.drawcoastlines()
 m.drawcountries()
-plt.pcolor(lon,lat,tkd_u.sum(axis=0),vmin=0,vmax=10,cmap=cmocean.cm.rain)
-plt.title("Convergence Line TKD")
+plt.pcolor(lon,lat,kd_u.sum(axis=0),vmin=0,vmax=10,cmap=cmocean.cm.rain)
+plt.title("Convergence Line KD")
 
 plt.suptitle("Frequencies in September 2016")
 plt.show()
