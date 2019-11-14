@@ -1,10 +1,15 @@
 
+This code calculates the locations of 1D edges and ridges in 2D atmospheric data.
+An example is given that calculates the locations of the Congo Air Boundary (CAB) and the Kalahari Discontinuity (KD) in era-5 reanalysis
+as per https://doi.org/10.1175/JCLI-D-19-0437.1.
+It is envisaged that this example may be used as a starting point when generalising to other regions, variables and datasets. 
+
 canny_mod.py             contains base edge/ridge detection algorithms
 drylines.py              contains useful routines and functions to apply algorithms
 get_input.py             downloads era5_nearsurface_2016.nc 
 identify_cab_kd.py       finds CAB and KD in 1 month of ERA-5 reanalysis
 
-To get started with a test case, set up the copernicus web api (https://cds.climate.copernicus.eu/api-how-to) if you haven't already.
+To get started with the example case, set up the copernicus web api (https://cds.climate.copernicus.eu/api-how-to) if you haven't already.
 You'll need to register to do this. 
 Install dependencies, including iris, basemap, cmocean and skimage. skimage is a must
 (of these, only skimage is truly required. You can fairly easily remove the former three packages by editing the code)
