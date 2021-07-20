@@ -3,7 +3,7 @@ import numpy as np
 import iris
 import matplotlib.pyplot as plt
 from drylines import find_edge,find_ridge,dxdy,ddx,ddy
-from mpl_toolkits.basemap import maskoceans,Basemap
+from cartopy import crs as ccrs
 from scipy.ndimage import gaussian_filter
 import cmocean
 
@@ -22,9 +22,9 @@ lon2,lat2=np.meshgrid(lon,lat)
 
 # Create masks for acceptable CAB and KD locations
 
-landmask = maskoceans(lon2,lat2,np.ones(lon2.shape))
-mask_cab = (lon2<=30)*(lat2<=-5)*(lat2>=-18)*(1-landmask.mask)
-mask_tkd = (lon2<=30)*(lat2<=-12)*(1-landmask.mask)
+#landmask = maskoceans(lon2,lat2,np.ones(lon2.shape))
+mask_cab = (lon2<=30)*(lat2<=-5)*(lat2>=-18)#*(1-landmask.mask)
+mask_tkd = (lon2<=30)*(lat2<=-12)#*(1-landmask.mask)
 
 # Calculate humidity from dewpoint
 # see eoas.ubc.ac/books/Practical_Meteorology/prmet102/Ch04-watervapor-v102b.pdf 
@@ -47,17 +47,17 @@ div = ddx(us,dx)+ddy(vs,dy)
 
 # Functions for plotting results
 def q_fig(d,tt,points,filt):
-    m=Basemap(llcrnrlat=-40,llcrnrlon=10,urcrnrlat=0,urcrnrlon=41.5)
-    m.drawcoastlines()
-    m.drawcountries()
+#    m=Basemap(llcrnrlat=-40,llcrnrlon=10,urcrnrlat=0,urcrnrlon=41.5)
+#    m.drawcoastlines()
+#    m.drawcountries()
     plt.title(tt)
     plt.contourf(lon,lat,d,np.linspace(0,0.018,20),cmap=cmocean.cm.matter)
     plt.pcolor(lon,lat,np.ma.masked_array(points,1-filt),vmin=-np.pi,vmax=np.pi,cmap=cmocean.cm.phase)
  
 def u_fig(d,tt,points,filt):
-    m=Basemap(llcrnrlat=-40,llcrnrlon=10,urcrnrlat=0,urcrnrlon=41.5)
-    m.drawcoastlines()
-    m.drawcountries()
+#    m=Basemap(llcrnrlat=-40,llcrnrlon=10,urcrnrlat=0,urcrnrlon=41.5)
+#    m.drawcoastlines()
+#    m.drawcountries()
     plt.title(tt)
     plt.contourf(lon,lat,d,np.linspace(-2e-4,2e-4,20),cmap='RdBu')
     plt.pcolor(lon,lat,np.ma.masked_array(points,1-filt),vmin=-np.pi,vmax=np.pi,cmap=cmocean.cm.phase)
@@ -80,31 +80,23 @@ kd_u=find_ridge(div,lon,lat,1,theta_max=np.pi/2,theta_min=np.pi/6,mag_min=2e-5,m
 
 
 # Plot spatial frequency heatmaps
-plt.subplot(221)
-m=Basemap(llcrnrlat=-40,llcrnrlon=10,urcrnrlat=0,urcrnrlon=41.5)
-m.drawcoastlines()
-m.drawcountries()
+ax=plt.subplot(221,projection=ccrs.PlateCarree())
+ax.coastlines()
 plt.pcolor(lon,lat,cab_q.sum(axis=0),vmin=0,vmax=10,cmap=cmocean.cm.rain)
 plt.title("Dryline CAB")
 
-plt.subplot(222)
-m=Basemap(llcrnrlat=-40,llcrnrlon=10,urcrnrlat=0,urcrnrlon=41.5)
-m.drawcoastlines()
-m.drawcountries()
+plt.subplot(222,projection=ccrs.PlateCarree())
+ax.coastlines()
 plt.pcolor(lon,lat,kd_q.sum(axis=0),vmin=0,vmax=10,cmap=cmocean.cm.rain)
 plt.title("Dryline KD")
 
-plt.subplot(223)
-m=Basemap(llcrnrlat=-40,llcrnrlon=10,urcrnrlat=0,urcrnrlon=41.5)
-m.drawcoastlines()
-m.drawcountries()
+plt.subplot(223,projection=ccrs.PlateCarree())
+ax.coastlines()
 plt.pcolor(lon,lat,cab_u.sum(axis=0),vmin=0,vmax=10,cmap=cmocean.cm.rain)
 plt.title("Convergence Line CAB")
 
-plt.subplot(224)
-m=Basemap(llcrnrlat=-40,llcrnrlon=10,urcrnrlat=0,urcrnrlon=41.5)
-m.drawcoastlines()
-m.drawcountries()
+ax=plt.subplot(224,projection=ccrs.PlateCarree())
+ax.coastlines()
 plt.pcolor(lon,lat,kd_u.sum(axis=0),vmin=0,vmax=10,cmap=cmocean.cm.rain)
 plt.title("Convergence Line KD")
 
